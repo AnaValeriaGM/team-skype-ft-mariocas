@@ -4,3 +4,59 @@
 <p align="middle">
   (ft. Mariocas)
 </p>
+
+<h2><a href="TOC"></a>Table of Contents</h2>
+<div id="TOC">
+  <ol>
+    <li>
+      <a href="#Alexis">Alexis Aldrete</a>
+    </li>
+    <li>
+      <a href="#Oscar">Oscar Munoz</a>
+    </li>
+    <li>
+      <a href="#Luis">Luis Serrano</a>
+    </li>
+    <li>
+      <a href="#Mario">Mario Carvajal</a>
+    </li>
+  </ol>
+</div>
+
+<div id="Alexis">
+  <h2>
+    <a href="#TOC"></a>
+    1. Alexis Aldrete
+  </h2>
+</div>
+<h3> A.K.A. </h3>
+<p> CABO </p>
+
+<div id="Oscar">
+  <h2>
+    <a href="#TOC"></a>
+    1. Oscar Munoz
+  </h2>
+</div>
+<h3> A.K.A. </h3>
+<p> RICO </p>
+
+<div id="Luis">
+  <h2>
+    <a href="#TOC"></a>
+    1. Luis Serrano
+  </h2>
+</div>
+<h3> A.K.A. </h3>
+<p> SKIPPER </p>
+
+<div id="Mario">
+  <h2>
+    <a href="#TOC"></a>
+    1. Mario Carvajal
+  </h2>
+</div>
+<h3> A.K.A. </h3>
+<p> MARIOCAS </p>
+  
+

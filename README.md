@@ -35,7 +35,7 @@
 <div id="Oscar">
   <h2>
     <a href="#TOC"></a>
-    1. Oscar Munoz
+    2. Oscar Munoz
   </h2>
 </div>
 <h3> A.K.A. </h3>
@@ -44,7 +44,7 @@
 <div id="Luis">
   <h2>
     <a href="#TOC"></a>
-    1. Luis Serrano
+    3. Luis Serrano
   </h2>
 </div>
 <h3> A.K.A. </h3>
@@ -53,7 +53,7 @@
 <div id="Mario">
   <h2>
     <a href="#TOC"></a>
-    1. Mario Carvajal
+    4. Mario Carvajal
   </h2>
 </div>
 <h3> A.K.A. </h3>

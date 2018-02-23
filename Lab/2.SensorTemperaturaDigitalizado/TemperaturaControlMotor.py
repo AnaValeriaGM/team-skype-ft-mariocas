@@ -2,10 +2,11 @@ import RPi.GPIO as GPIO
 import time
 import sys
 import smbus
-
+from RPLCD.gpio import CharLCD
 
 GPIO.setmode(GPIO.BOARD)
-
+lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[33,31,29,23], numbering_mode=GPIO.BOARD)
+lcd.write_string(u"Starting...")
 Motor1A = 12
 
 GPIO.setup(Motor1A,GPIO.OUT)
@@ -49,29 +50,38 @@ def Read(Input):
         R = 1
         R2 = 0
         print(x, "Cold")
+        return x
         L = "cold"
     if x > a and x < b:
         R = (b - x)/(b - a)
         R2 = (x - a)/(b - a)
-        print("Warm-Cold")
+        print(x, "Warm-Cold")
+        return x
     if x > b and x < c:
         R = (x - b)/(c - b)
         R2 = (c - x)/(c - b)
-        print("Warm-Hot")
+        print(x, "Warm-Hot")
+        return x
     if x >= c and x <= d:
         R = 1
         R2 = 0
         print(x, "Hot")
+        return x
         L = "hot"
     if x == b:
         R = 0
         R2 = 1
         print(x, "Warm")
+        return x
     if R > R2 and x > a and x < b:
         print(x + R, "More Cold than Warm")
+        res = x + R
+        return res
         # l1,l2 = "cold","warm"
     if R > R2 and x > b and x < c:
         print(x + R, "More Hot than Warm")
+        res = x + R
+        return res
         # l1,l2 = "warm","hot"
     if R2 > R and x != b:
         L = "warm"
@@ -79,19 +89,18 @@ def Read(Input):
             # l1,l2 = "warm","hot"
         # else:
             # l1,l2 = "cold","warm"
+        res = x + R2
+        return res
         print(x + R2, "More Warm than anything else")
 
-    print("1 = Metodo de peso promedio")
     if R > R2:
         mayor = R
         menor = R2
     else:
         mayor = R2
         menor = R
-    print("R , R2",R," ",R2)
 
     if L == "cold":
-        print ("im in ")
         l1 = 0
         l2 = 25
         l3 = 0
@@ -113,17 +122,20 @@ def Read(Input):
         l4 = 100
 
     pwm = mayor*((l1+l2)/2)+ menor*((l3+l4)/2)
-    print(l1,l2,l3,l4)
     print(pwm)
-    return pwm
+
 y = 0
 while True:
     x = bus.read_byte_data(DEVICE_ADDRESS, 0x00)
     time.sleep(1)
     if y!= x:
+        lcd.clear()
         y = x
         pwm = Read(x)
-        M1A.start(pwm)
+        M1A.start(pwm + 20)
+        lcd.cursor_pos=(0,0)
+        lcd.write_string(u"Temp: " + str(pwm) + "C")
+        lcd.cursor_pos=(1,0)
+        lcd.write_string(u"TeamSkype")
     else:
         pass 
-    

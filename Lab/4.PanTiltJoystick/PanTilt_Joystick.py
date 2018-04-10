@@ -13,7 +13,7 @@ Motor2 = 21
 GPIO.setup(Motor1,GPIO.OUT)
 GPIO.setup(Motor2,GPIO.OUT)
 
-#Frequency that the Pulse Width Modulation (PWM) of both motors will use.
+#Frequency used by the Pulse Width Modulation (PWM) of both motors.
 fq = 50
 
 #Creates a PWM instance for Motors 1 and 2.

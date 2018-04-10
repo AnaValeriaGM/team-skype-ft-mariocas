@@ -4,24 +4,9 @@ import time
 import smbus
 from RPLCD.gpio import CharLCD
 
-#Specify which way the IO pins on a Raspberry Pi within RPI.GPIO are numbered.
-GPIO.setmode(GPIO.BOARD)
-
 #Define GPIO pins to LCD mapping.
 lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[33,31,29,23], numbering_mode=GPIO.BOARD)
 lcd.write_string(u"Starting...")
-
-#Set variable for pin.
-Motor = 12
-
-#Setup channel used as Input or Output.
-GPIO.setup(Motor,GPIO.OUT)
-
-#Frequency used in the Pulse Width Modulation (PWM) of the motor.
-fq = 50
-
-#Create a PWM instance for the motor.
-M1 = GPIO.PWM(12, fq)
 
 #Create a SMBus instance.
 bus = smbus.SMBus(1)
@@ -132,9 +117,6 @@ while True:
     time.sleep(1)
     if temporal!= x:
         temporal = x
-        pwm = Read(x)
-        #Starts PWM
-        M1.start(pwm + 20)
         #Writes in LCD the Temperature.
         lcd.clear()
         lcd.cursor_pos=(0,0)

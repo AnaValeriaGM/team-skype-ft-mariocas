@@ -4,7 +4,7 @@ import time
 
 #Create a SMBus instance.
 bus = smbus.SMBus(1)
-#Address that the i2c device will read from.
+#Address that the ADC(Analog to Digital Converter) device will read from, via protocol i2c.
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
 

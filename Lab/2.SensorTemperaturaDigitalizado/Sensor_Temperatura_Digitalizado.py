@@ -4,30 +4,35 @@ import sys
 import smbus
 from RPLCD.gpio import CharLCD
 
+#Specify which way the IO pins on a Raspberry Pi within RPI.GPIO are numbered.
 GPIO.setmode(GPIO.BOARD)
+
+#Define GPIO pins to LCD mapping.
 lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[33,31,29,23], numbering_mode=GPIO.BOARD)
 lcd.write_string(u"Starting...")
-Motor1A = 12
 
-GPIO.setup(Motor1A,GPIO.OUT)
+#Set variable for pin.
+Motor = 12
 
+#Setup channel used as Input or Output.
+GPIO.setup(Motor,GPIO.OUT)
+
+#Frequency used in the Pulse Width Modulation (PWM) of the motor.
 fq = 50
 
-M1A = GPIO.PWM(12, fq)
+#Create a PWM instance for the motor.
+M1 = GPIO.PWM(12, fq)
 
+#Create a SMBus instance.
 bus = smbus.SMBus(1)
+#Address that the i2c device will read from.
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
 
-##while True:
-##    x = bus.read_byte(DEVICE_ADDRESS)
-##    print (x)
-##    time.sleep(1)
- 
+#Create a method based in Fuzzy Logic to measure the sensor temperature.
 def Read(Input):
     Vref = 5
     AnlogIn = (Vref*Input)/((2**8) -1) *100
-##    x = float(input("ingrese la temperatura"  ))
     x = AnlogIn
     print('\n', Input)
     a = 20
@@ -42,8 +47,8 @@ def Read(Input):
     mayor = 0
     menor = 0
     L = ""
-    R = 0 # grado de membresia de los trapecios
-    R2 = 0 # grado  de membresia del triangulo
+    R = 0
+    R2 = 0
     rpm = 500
 
     if x <= a and x > 0:
@@ -77,18 +82,12 @@ def Read(Input):
         print(x + R, "More Cold than Warm")
         res = x + R
         return res
-        # l1,l2 = "cold","warm"
     if R > R2 and x > b and x < c:
         print(x + R, "More Hot than Warm")
         res = x + R
         return res
-        # l1,l2 = "warm","hot"
     if R2 > R and x != b:
         L = "warm"
-        # if x < b:
-            # l1,l2 = "warm","hot"
-        # else:
-            # l1,l2 = "cold","warm"
         res = x + R2
         return res
         print(x + R2, "More Warm than anything else")
@@ -124,15 +123,20 @@ def Read(Input):
     pwm = mayor*((l1+l2)/2)+ menor*((l3+l4)/2)
     print(pwm)
 
-y = 0
+#Create a temporal variable used when a change in the temperature exists.
+temporal = 0
+#Create a loop that reads from the i2c device, interprets and sends the temperature to the LCD if it is different from the temporal variable.
 while True:
+    #Reads from the i2c device in address 0x00 (where the sensor is connected to).
     x = bus.read_byte_data(DEVICE_ADDRESS, 0x00)
     time.sleep(1)
-    if y!= x:
-        lcd.clear()
-        y = x
+    if temporal!= x:
+        temporal = x
         pwm = Read(x)
-        M1A.start(pwm + 20)
+        #Starts PWM
+        M1.start(pwm + 20)
+        #Writes in LCD the Temperature.
+        lcd.clear()
         lcd.cursor_pos=(0,0)
         lcd.write_string(u"Temp: " + str(pwm) + "C")
         lcd.cursor_pos=(1,0)

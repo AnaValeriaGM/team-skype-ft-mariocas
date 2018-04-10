@@ -38,6 +38,7 @@ while True:
     eight = Vref/8
     time.sleep(.5)
     #Every LED needs to be declared as on(1) or off(0).
+    #Bar display
     if switch > 0:
         if Vin >= Vref:
             GPIO.output(29, 1)
@@ -121,6 +122,7 @@ while True:
                 GPIO.output(32, 1)
                 GPIO.output(36, 1)
                 GPIO.output(38, 1)
+    #Dot display
     else:
         if Vin >= Vref:
             GPIO.output(29, 0)

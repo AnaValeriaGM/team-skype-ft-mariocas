@@ -1,3 +1,4 @@
+#Import libraries
 import RPi.GPIO as GPIO
 import time
 from RPLCD import CharLCD

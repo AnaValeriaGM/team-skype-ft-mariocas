@@ -1,14 +1,15 @@
 import smbus
 import time
 
+#Parameters for the i2c device to identify the address where it is going to read from
 bus = smbus.SMBus(1)
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
- 
+
+#Creates method that is based in Fuzzy Logic
 def Read(Input):
     Vref = 5
     AnlogIn = (Vref*Input)/((2**8) -1) *100
-##    x = float(input("ingrese la temperatura"  ))
     x = AnlogIn
     print('\n', Input)
     a = 20
@@ -51,16 +52,10 @@ def Read(Input):
         print(x, "Warm")
     if R > R2 and x > a and x < b:
         print(x + R, "More Cold than Warm")
-        # l1,l2 = "cold","warm"
     if R > R2 and x > b and x < c:
         print(x + R, "More Hot than Warm")
-        # l1,l2 = "warm","hot"
     if R2 > R and x != b:
         L = "warm"
-        # if x < b:
-            # l1,l2 = "warm","hot"
-        # else:
-            # l1,l2 = "cold","warm"
         print(x + R2, "More Warm than anything else")
 
     print("1 = Metodo de peso promedio")
@@ -97,12 +92,16 @@ def Read(Input):
     pwm = mayor*((l1+l2)/2)+ menor*((l3+l4)/2)
     print(l1,l2,l3,l4)
     print(pwm)
-y = 0
+    
+#Create temporal variable if any change exists
+temp = 0
+
+#Create loop that reads from the i2c device and prints its value if it is different from the temporal variable.
 while True:
     x = bus.read_byte_data(DEVICE_ADDRESS, 0x00)
     time.sleep(1)
-    if y!= x:
-        y = x
+    if temp!= x:
+        temp = x
         Read(x)
     else:
         pass 

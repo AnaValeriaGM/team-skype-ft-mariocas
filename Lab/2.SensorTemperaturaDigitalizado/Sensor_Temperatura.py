@@ -1,12 +1,13 @@
 import smbus
 import time
 
-#Parameters for the i2c device to identify the address where it is going to read from
+#Create a SMBus instance.
 bus = smbus.SMBus(1)
+#Address that the i2c device will read from.
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
 
-#Creates method that is based in Fuzzy Logic
+#Create a method based in Fuzzy Logic to measure the sensor temperature.
 def Read(Input):
     Vref = 5
     AnlogIn = (Vref*Input)/((2**8) -1) *100
@@ -24,8 +25,8 @@ def Read(Input):
     mayor = 0
     menor = 0
     L = ""
-    R = 0 # grado de membresia de los trapecios
-    R2 = 0 # grado  de membresia del triangulo
+    R = 0
+    R2 = 0 
     rpm = 500
 
     if x <= a and x > 0:

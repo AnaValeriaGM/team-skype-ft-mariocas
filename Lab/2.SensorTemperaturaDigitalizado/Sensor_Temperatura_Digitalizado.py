@@ -1,6 +1,6 @@
+#Import libraries
 import RPi.GPIO as GPIO
 import time
-import sys
 import smbus
 from RPLCD.gpio import CharLCD
 

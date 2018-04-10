@@ -98,9 +98,9 @@ def Read(Input):
 #Create a temporal variable used when a change in the temperature exists.
 temporal = 0
 
-#Create a loop that reads from the i2c device, interprets and prints the temperature if it is different from the temporal variable.
+#Create a loop that reads from the ADC device, interprets and prints the temperature if it is different from the temporal variable.
 while True:
-    #Reads from the i2c device in address 0x00 (where the sensor is connected to).
+    #Reads from the ADC device in address 0x00 (where the sensor is connected to).
     x = bus.read_byte_data(DEVICE_ADDRESS, 0x00)
     time.sleep(1)
     if temporal!= x:

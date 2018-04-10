@@ -22,7 +22,7 @@ M2 = GPIO.PWM(21, fq)
 
 #Create a SMBus instance.
 bus = smbus.SMBus(1)
-#Address that the i2c device will read from.
+#Address that the ADC(Analog to Digital Converter) device will read from, via protocol i2c.
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
 
@@ -33,7 +33,7 @@ def Read(Input):
     print('\nInput = ', Input,'	PWM = ',x) 
     return x
 
-#Create a loop that reads from the i2c device, interprets and sends a scaled signal to the motors.
+#Create a loop that reads from the ADC device, interprets and sends a scaled signal to the motors.
 while True:
     #Only the axis x (address 0x00) and y (address 0x01) where used from the joystick.
     x = bus.read_byte_data(DEVICE_ADDRESS, 0x00)

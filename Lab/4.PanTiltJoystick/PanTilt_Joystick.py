@@ -9,7 +9,7 @@ GPIO.setmode(GPIO.BOARD)
 Motor1 = 22
 Motor2 = 21
 
-#Setups every channel that will be used as an Input or an Output
+#Setups every channel used as Input or Output
 GPIO.setup(Motor1,GPIO.OUT)
 GPIO.setup(Motor2,GPIO.OUT)
 

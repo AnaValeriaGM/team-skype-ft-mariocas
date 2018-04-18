@@ -25,6 +25,7 @@ M1 = GPIO.PWM(12, fq)
 
 #Create a SMBus instance.
 bus = smbus.SMBus(1)
+
 #Address that the ADC(Analog to Digital Converter) device will read from, via protocol i2c.
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
@@ -125,6 +126,7 @@ def Read(Input):
 
 #Create a temporal variable used when a change in the temperature exists.
 temporal = 0
+
 #Create a loop that reads from the ADC device, interprets and sends the temperature to the LCD and motor if it is different from the temporal variable.
 while True:
     #Reads from the ADC device in address 0x00 (where the sensor is connected to).

@@ -1,36 +1,36 @@
-#Import libraries
+# Import libraries
 import RPi.GPIO as GPIO
 import time
 import smbus
 from RPLCD.gpio import CharLCD
 
-#Specify which way the IO pins on a Raspberry Pi within RPI.GPIO are numbered.
+# Specify which way the IO pins on a Raspberry Pi within RPI.GPIO are numbered.
 GPIO.setmode(GPIO.BOARD)
 
-#Define GPIO pins to LCD mapping.
+# Define GPIO pins to LCD mapping.
 lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[33,31,29,23], numbering_mode=GPIO.BOARD)
 lcd.write_string(u"Starting...")
 
-#Set variable for pin.
+# Set variable for pin.
 Motor = 12
 
-#Setup channel used as Input or Output.
+# Setup channel used as Input or Output.
 GPIO.setup(Motor,GPIO.OUT)
 
-#Frequency used in the Pulse Width Modulation (PWM) of the motor.
+# Frequency used in the Pulse Width Modulation (PWM) of the motor.
 fq = 50
 
-#Create a PWM instance for the motor.
+# Create a PWM instance for the motor.
 M1 = GPIO.PWM(12, fq)
 
-#Create a SMBus instance.
+# Create a SMBus instance.
 bus = smbus.SMBus(1)
 
-#Address that the ADC(Analog to Digital Converter) device will read from, via protocol i2c.
+# Address that the ADC(Analog to Digital Converter) device will read from, via protocol i2c.
 DEVICE_ADDRESS = 0x48
 print('starting...\n')
 
-#Create a method based in Fuzzy Logic to measure the sensor temperature.
+# Create a method based in Fuzzy Logic to measure the sensor temperature.
 def Read(Input):
     Vref = 5
     AnlogIn = (Vref*Input)/((2**8) -1) *100
@@ -124,20 +124,20 @@ def Read(Input):
     pwm = mayor*((l1+l2)/2)+ menor*((l3+l4)/2)
     print(pwm)
 
-#Create a temporal variable used when a change in the temperature exists.
+# Create a temporal variable used when a change in the temperature exists.
 temporal = 0
 
-#Create a loop that reads from the ADC device, interprets and sends the temperature to the LCD and motor if it is different from the temporal variable.
+# Create a loop that reads from the ADC device, interprets and sends the temperature to the LCD and motor if it is different from the temporal variable.
 while True:
-    #Reads from the ADC device in address 0x00 (where the sensor is connected to).
+    # Reads from the ADC device in address 0x00 (where the sensor is connected to).
     x = bus.read_byte_data(DEVICE_ADDRESS, 0x00)
     time.sleep(1)
     if temporal!= x:
         temporal = x
         pwm = Read(x)
-        #Starts PWM
+        # Starts PWM
         M1.start(pwm + 20)
-        #Writes in LCD the Temperature.
+        # Writes in LCD the Temperature.
         lcd.clear()
         lcd.cursor_pos=(0,0)
         lcd.write_string(u"Temp: " + str(pwm) + "C")
